@@ -30,7 +30,6 @@ Demo: [http://antonfisher.com/extjs4-sandbox/](http://antonfisher.com/extjs4-san
     series: [
       {
         type: 'd3pie',            // change serie type
-        d3: d3,                   // add link to d3 library
         angleField: 'value',
         radius: 90,
         donut: 60,
@@ -55,6 +54,8 @@ Demo: [http://antonfisher.com/extjs4-sandbox/](http://antonfisher.com/extjs4-san
 | `labelTextOffset: 15` | {_Number_} labels offset |
 | `angleField: 'value'` | {_String_} store property name for pie value |
 | `label: {...}` | {_Object_} label properties |
+| `showCenterTexts: false` | {_Boolean_} show center texts |
+| `showLabels: false` | {_Boolean_} show labels |
 | `showItemDescription: true` | {_Boolean_} show text description under value |
 | `totalTitle: 'TOTAL'` | {_String_} total title |
 | `noDataText: 'NO DATA'` | {_String_} no data text |
