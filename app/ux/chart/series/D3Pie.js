@@ -53,6 +53,11 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
     showItemDescription: true,
 
     /**
+     * @cfg {Boolean} show center texts
+     */
+    showCenterTexts: false,
+
+    /**
      * @cfg {String} total title
      */
     totalTitle: 'TOTAL',
@@ -285,9 +290,11 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
             return;
         }
 
-        self.d3Data.totalValueLabel.text(function () {
-            return self.totalValueRenderer(totalDataValue, store);
-        });
+        if (self.showCenterTexts) {
+            self.d3Data.totalValueLabel.text(function() {
+                return self.totalValueRenderer(totalDataValue, store);
+            });
+        }
 
         var filterAngleFn = function (item) {
             if (self.filterAngle) {
@@ -483,29 +490,31 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
 
         self.d3Data.centerGroup.selectAll('.ux-d3-pie-center-texts').remove();
 
-        self.d3Data.centerGroup.append('svg:text')
-            .attr('class', 'ux-d3-pie-center-texts ux-d3-pie-top-title')
-            .attr('dy', -5)
-            .attr('text-anchor', 'middle')
-            .attr('stroke', '#ffffff')
-            .attr('stroke-width', 3)
-            .attr('stroke-opacity', 0.8)
-            .attr('stroke-linecap', 'round')
-            .attr('stroke-linejoin', 'round')
-            .attr('paint-order', 'stroke')
-            .text(topTitle);
+        if (self.showCenterTexts) {
+            self.d3Data.centerGroup.append('svg:text')
+                .attr('class', 'ux-d3-pie-center-texts ux-d3-pie-top-title')
+                .attr('dy', -5)
+                .attr('text-anchor', 'middle')
+                .attr('stroke', '#ffffff')
+                .attr('stroke-width', 3)
+                .attr('stroke-opacity', 0.8)
+                .attr('stroke-linecap', 'round')
+                .attr('stroke-linejoin', 'round')
+                .attr('paint-order', 'stroke')
+                .text(topTitle);
 
-        self.d3Data.totalValueLabel = self.d3Data.centerGroup.append('svg:text')
-            .attr('class', 'ux-d3-pie-center-texts ux-d3-pie-bottom-title')
-            .attr('dy', (topTitle ? 13 : 6))
-            .attr('text-anchor', 'middle')
-            .attr('stroke', '#ffffff')
-            .attr('stroke-width', 3)
-            .attr('stroke-opacity', 0.8)
-            .attr('stroke-linecap', 'round')
-            .attr('stroke-linejoin', 'round')
-            .attr('paint-order', 'stroke')
-            .text(bottomTitle);
+            self.d3Data.totalValueLabel = self.d3Data.centerGroup.append('svg:text')
+                .attr('class', 'ux-d3-pie-center-texts ux-d3-pie-bottom-title')
+                .attr('dy', (topTitle ? 13 : 6))
+                .attr('text-anchor', 'middle')
+                .attr('stroke', '#ffffff')
+                .attr('stroke-width', 3)
+                .attr('stroke-opacity', 0.8)
+                .attr('stroke-linecap', 'round')
+                .attr('stroke-linejoin', 'round')
+                .attr('paint-order', 'stroke')
+                .text(bottomTitle);
+        }
     }
 
 });
