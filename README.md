@@ -48,7 +48,6 @@ Demo: [http://antonfisher.com/extjs4-sandbox/](http://antonfisher.com/extjs4-san
 ## Options
 |Option|Description|
 |---|---|
-| `d3: undefined` | {_Object_} __[required]__ link to D3 library object |
 | `radius: undefined` | {_Number_} pie radius ('_undefined_' for auto) |
 | `donut: undefined` | {_Number_} donut radius ('_undefined_' for auto) |
 | `centerX: undefined` | {_Number_} pie center _X_ coordinate ('_undefined_' for auto) |

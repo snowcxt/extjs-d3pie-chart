@@ -11,11 +11,6 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
     alias: 'series.d3pie',
 
     /**
-     * @cfg {Object} link to D3 library object
-     */
-    d3: undefined,
-
-    /**
      * @cfg {Number} pie radius ('undefined' for auto)
      */
     radius: undefined,
@@ -115,8 +110,8 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
     constructor: function (config) {
         var self = this;
 
-        if (!config.d3) {
-            throw (self.$className + ': D3 library does not defined');
+        if (!d3) {
+            throw ('D3 library does not defined');
         }
 
         if (config.radius && config.radius <= 0) {
@@ -129,11 +124,9 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
             });
         }
 
-        self.d3 = config.d3;
-
         self.d3Data = {};
 
-        self.d3ColorsGenrator = self.d3.scale.category20();
+        self.d3ColorsGenrator = d3.scale.category20();
 
         self.callParent(arguments);
 
@@ -213,7 +206,7 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
             (typeof self.donut !== 'undefined') ? Math.min(self.radius - 1, self.donut) : (self.radius - 10)
         );
 
-        var chartEl = self.d3.select('#' + self.chart.getId() + ' svg')
+        var chartEl = d3.select('#' + self.chart.getId() + ' svg')
             .attr('width', chart.width)
             .attr('height', chart.height);
 
@@ -245,9 +238,9 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
             };
         };
 
-        var storeData = self.d3.range(store.getCount()).map(fillFromStore);
+        var storeData = d3.range(store.getCount()).map(fillFromStore);
 
-        var donutFn = self.d3.layout.pie().value(function (d) {
+        var donutFn = d3.layout.pie().value(function (d) {
             return d.value;
         }).sort(function () {
             // to sort as in store
@@ -265,7 +258,7 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
             }
         };
 
-        var arcFn = self.d3.svg.arc()
+        var arcFn = d3.svg.arc()
             .startAngle(function (d) {
                 return -d.startAngle;
             })
