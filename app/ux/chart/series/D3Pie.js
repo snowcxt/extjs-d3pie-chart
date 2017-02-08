@@ -414,6 +414,8 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
                     });
             }
         }
+
+        self.fireEvent('chartUpdated', self);
     },
 
     /**
