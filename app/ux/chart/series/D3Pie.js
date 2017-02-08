@@ -3,6 +3,7 @@
  *
  * @author Anton Fischer <a.fschr@gmail.com>
  */
+
 Ext.define('Sandbox.ux.chart.series.D3Pie', {
     extend: 'Ext.chart.series.Series',
 
@@ -56,6 +57,11 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
      * @cfg {Boolean} show center texts
      */
     showCenterTexts: false,
+
+    /**
+     * @cfg {Boolean} show labels
+     */
+    showLabels: false,
 
     /**
      * @cfg {String} total title
@@ -291,7 +297,7 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
         }
 
         if (self.showCenterTexts) {
-            self.d3Data.totalValueLabel.text(function() {
+            self.d3Data.totalValueLabel.text(function () {
                 return self.totalValueRenderer(totalDataValue, store);
             });
         }
@@ -319,79 +325,94 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', {
                 }
             });
 
-        self.d3Data.labelGroup.selectAll('line')
-            .data(filteredStoreData)
-            .enter()
-            .append('svg:line')
-            .filter(filterAngleFn)
-            .attr('x1', 0)
-            .attr('x2', 0)
-            .attr('y1', -self.radius - 2)
-            .attr('y2', -self.radius - 9)
-            .attr('stroke', '#bbbbbb')
-            .attr('transform', function (d) {
-                return 'rotate(' + ((-d.startAngle - d.endAngle) / 2 * (180 / Math.PI)) + ')';
-            });
+        if (self.showLabels) {
+            self.d3Data.labelGroup.selectAll('line')
+                .data(filteredStoreData)
+                .enter()
+                .append('svg:line')
+                .filter(filterAngleFn)
+                .attr('x1', 0)
+                .attr('x2', 0)
+                .attr('y1', -self.radius - 2)
+                .attr('y2', -self.radius - 9)
+                .attr('stroke', '#bbbbbb')
+                .attr('transform',
+                    function (d) {
+                        return 'rotate(' + ((-d.startAngle - d.endAngle) / 2 * (180 / Math.PI)) + ')';
+                    });
 
-        self.d3Data.labelGroup.selectAll('text.ux-d3-pie-value')
-            .data(filteredStoreData)
-            .enter()
-            .append('svg:text')
-            .filter(filterAngleFn)
-            .attr('class', 'ux-d3-pie-value')
-            .attr('transform', function (d) {
-                return 'translate('
-                    + Math.cos((-d.startAngle - d.endAngle - Math.PI) / 2) * (self.radius + self.labelTextOffset)
-                    + ','
-                    + Math.sin((-d.startAngle - d.endAngle - Math.PI) / 2) * (self.radius + self.labelTextOffset)
-                    + ')';
-            })
-            .attr('dy', function (d) {
-                if (
-                    (d.startAngle + d.endAngle) / 2 > Math.PI / 2
-                    && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5
-                ) {
-                    return 5;
-                } else {
-                    if (self.showItemDescription) {
-                        return -7;
-                    }
-                    return 0;
-                }
-            })
-            .attr('text-anchor', getTextAnchorForLabel)
-            .text(function (dataItem) {
-                return self.itemValueRenderer(dataItem, totalDataValue, store);
-            });
-
-        if (self.showItemDescription) {
-            self.d3Data.labelGroup.selectAll('text.ux-d3-pie-description')
+            self.d3Data.labelGroup.selectAll('text.ux-d3-pie-value')
                 .data(filteredStoreData)
                 .enter()
                 .append('svg:text')
                 .filter(filterAngleFn)
-                .attr('class', 'ux-d3-pie-description')
-                .attr('transform', function (d) {
-                    return 'translate('
-                        + Math.cos((-d.startAngle - d.endAngle - Math.PI) / 2) * (self.radius + self.labelTextOffset)
-                        + ','
-                        + Math.sin((-d.startAngle - d.endAngle - Math.PI) / 2) * (self.radius + self.labelTextOffset)
-                        + ')';
-                })
-                .attr('dy', function (d) {
-                    if (
-                        (d.startAngle + d.endAngle) / 2 > Math.PI / 2
-                        && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5
-                    ) {
-                        return 17;
-                    } else {
-                        return 5;
-                    }
-                })
+                .attr('class', 'ux-d3-pie-value')
+                .attr('transform',
+                    function (d) {
+                        return 'translate(' +
+                            Math.cos((-d
+                                    .startAngle -
+                                    d.endAngle -
+                                    Math.PI) /
+                                2) *
+                            (self.radius + self.labelTextOffset) +
+                            ',' +
+                            Math.sin((-d
+                                .startAngle -
+                                d.endAngle -
+                                Math.PI) /
+                            2) *
+                            (self.radius + self.labelTextOffset) +
+                            ')';
+                    })
+                .attr('dy',
+                    function (d) {
+                        if (
+                            (d.startAngle + d.endAngle) / 2 > Math.PI / 2 &&
+                            (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5
+                        ) {
+                            return 5;
+                        } else {
+                            if (self.showItemDescription) {
+                                return -7;
+                            }
+                            return 0;
+                        }
+                    })
                 .attr('text-anchor', getTextAnchorForLabel)
-                .text(function (itemData) {
-                    return self.itemDescriptionRenderer(itemData, totalDataValue, store);
+                .text(function (dataItem) {
+                    return self.itemValueRenderer(dataItem, totalDataValue, store);
                 });
+
+            if (self.showItemDescription) {
+                self.d3Data.labelGroup.selectAll('text.ux-d3-pie-description')
+                    .data(filteredStoreData)
+                    .enter()
+                    .append('svg:text')
+                    .filter(filterAngleFn)
+                    .attr('class', 'ux-d3-pie-description')
+                    .attr('transform', function (d) {
+                        return 'translate('
+                            + Math.cos((-d.startAngle - d.endAngle - Math.PI) / 2) * (self.radius + self.labelTextOffset)
+                            + ','
+                            + Math.sin((-d.startAngle - d.endAngle - Math.PI) / 2) * (self.radius + self.labelTextOffset)
+                            + ')';
+                    })
+                    .attr('dy', function (d) {
+                        if (
+                            (d.startAngle + d.endAngle) / 2 > Math.PI / 2
+                            && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5
+                        ) {
+                            return 17;
+                        } else {
+                            return 5;
+                        }
+                    })
+                    .attr('text-anchor', getTextAnchorForLabel)
+                    .text(function (itemData) {
+                        return self.itemDescriptionRenderer(itemData, totalDataValue, store);
+                    });
+            }
         }
     },
 
