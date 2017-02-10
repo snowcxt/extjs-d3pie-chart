@@ -311,7 +311,7 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', (function () {
 
             self.d3DrawEmptyCircle(self.totalTitle, self.noDataText);
 
-            if (filteredStoreData.length === 0) {
+            if (filteredStoreData.length === 0 || totalDataValue === 0) {
                 return;
             }
 
