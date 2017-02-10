@@ -4,6 +4,7 @@
  * http://jsfiddle.net/hrabinowitz/aZZSF/49/
  */
 
+Ext.define('Sandbox.ux.chart.series.D3Difference', (function () {
     'use strict';
 
     return {
