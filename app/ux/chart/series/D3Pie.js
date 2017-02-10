@@ -31,7 +31,17 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', (function () {
         centerY: undefined,
 
         /**
-         * @cfg {Boolean} Whether the pie slices are displayed clockwise. Default's true.
+         * @cfg {Number} the overall start angle of the pie. Default's 0.
+         */
+        startAngle: 0,
+
+        /**
+         * @cfg {Number} the overall end angle of the pie. Default's 2π.
+         */
+        endAngle: Math.PI * 2,
+
+        /**
+         * @cfg {Boolean} whether the pie slices are displayed clockwise. Default's true.
          */
         clockwise: true,
         /**
@@ -238,7 +248,7 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', (function () {
 
             self.d3Data.arcGroup = self.d3Data.arcGroup || chartEl.append('svg:g').attr('transform', centerTranslate);
             self.d3Data.labelGroup = self.d3Data.labelGroup || chartEl.append('svg:g').attr('transform', centerTranslate);
-            self.d3Data.centerGroup = self.d3Data.centerGroup ||  chartEl.append('svg:g').attr('transform', centerTranslate);
+            self.d3Data.centerGroup = self.d3Data.centerGroup || chartEl.append('svg:g').attr('transform', centerTranslate);
 
             self.updateChart();
         },
@@ -259,8 +269,8 @@ Ext.define('Sandbox.ux.chart.series.D3Pie', (function () {
                 },
                 storeData = d3.range(store.getCount()).map(fillFromStore),
                 donutFn = d3.layout.pie()
-                    //.startAngle(-Math.PI / 2)
-                    //.endAngle(Math.PI * 2 - Math.PI / 2)
+                    .startAngle(self.startAngle)
+                    .endAngle(self.endAngle)
                     .value(function (d) {
                         return d.value;
                     })

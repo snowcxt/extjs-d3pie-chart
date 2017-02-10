@@ -51,6 +51,8 @@ Demo: [http://antonfisher.com/extjs4-sandbox/](http://antonfisher.com/extjs4-san
 | `donut: undefined` | {_Number_} donut radius ('_undefined_' for auto) |
 | `centerX: undefined` | {_Number_} pie center _X_ coordinate ('_undefined_' for auto) |
 | `centerY: undefined` | {_Number_} pie center _Y_ coordinate ('_undefined_' for auto) |
+| `startAngle: 0` | {_Number_} the overall start angle of the pie |
+| `endAngle: 2π` | {_Number_} the overall end angle of the pie |
 | `labelTextOffset: 15` | {_Number_} labels offset |
 | `angleField: 'value'` | {_String_} store property name for pie value |
 | `label: {...}` | {_Object_} label properties |
